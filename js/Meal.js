@@ -1,19 +1,19 @@
 export default class Meal extends Object {
   constructor(mealResult) {
     super();
-    this.title = mealResult.strMeal;
-    this.category = mealResult.strCategory;
-    this.thumb = mealResult.strMealThumb;
-    this.source = mealResult.strSource;
-    this.youtube = mealResult.strYoutube;
-    this.instructions = mealResult.strInstructions;
+    this.title = mealResult.meals[0].strMeal;
+    this.category = mealResult.meals[0].strCategory;
+    this.thumb = mealResult.meals[0].strMealThumb;
+    this.source = mealResult.meals[0].strSource;
+    this.youtube = mealResult.meals[0].strYoutube;
+    this.instructions = mealResult.meals[0].strInstructions;
     this.ingredients = () => {
       let items = [];
 
       for (let i = 1; i < 20; i++) {
         const item = {
-          ingredient: mealResult[`strIngredient${i}`],
-          measure: mealResult[`strMeasure${i}`],
+          ingredient: mealResult.meals[0][`strIngredient${i}`],
+          measure: mealResult.meals[0][`strMeasure${i}`],
         };
 
         ingredients.push(item);
@@ -21,5 +21,9 @@ export default class Meal extends Object {
 
       return items;
     };
+  }
+
+  logMeal() {
+    console.log(this);
   }
 }
