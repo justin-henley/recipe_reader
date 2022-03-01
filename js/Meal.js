@@ -1,4 +1,22 @@
+/**
+ * Class representing a meal from TheMealDB
+ * @extends Object
+ */
 export default class Meal extends Object {
+  // Properties
+  title;
+  category;
+  thumb;
+  source;
+  youtube;
+  instructions;
+  ingredients;
+
+  /**
+   * Represents a single meal from the TheMealDB
+   * @constructor
+   * @param {object} mealResult - The result obj from querying TheMealDB for a single dish
+   */
   constructor(mealResult) {
     super();
     this.title = mealResult.meals[0].strMeal;
@@ -24,11 +42,11 @@ export default class Meal extends Object {
     }
   }
 
-  logMeal() {
-    console.log(this);
-  }
-
-  html() {
+  /**
+   * Returns an HTML Element containing the full text of the recipe
+   * @return {htmlElement} - An html article containing the full text of the recipe
+   */
+  toHtml() {
     const recipe = document.createElement("article");
 
     // Title
