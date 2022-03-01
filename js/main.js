@@ -39,7 +39,8 @@ async function getMeal(food) {
 async function getRandomMeal() {
   const result = await getMealData();
   const newMeal = new Meal(result);
-  document.body.appendChild(newMeal.html());
+  console.log(voice.availableVoices);
+  document.body.appendChild(newMeal.toHtml());
   voice.speak(newMeal.title);
   voice.speak(newMeal.category);
   voice.speak(newMeal.instructions);
@@ -47,6 +48,9 @@ async function getRandomMeal() {
 
 function initApp() {
   voice.speak("Welcome to the menu reader app");
+  console.log(responsiveVoice.getVoices());
+  console.log(voice.voiceProfile);
+  voice.voiceProfile = "US English Female";
   getRandomMeal();
   /* getMeal("Arrabiata"); */
 }
