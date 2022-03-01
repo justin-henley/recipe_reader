@@ -1,11 +1,23 @@
 import Meal from "./Meal.js";
+import Voice from "./Voice.js";
+
+const voice = new Voice();
 
 async function getMealData(food) {
-  console.log("get meal data");
-  const searchURL = encodeURI(
-    `https://www.themealdb.com/api/json/v1/1/search.php?s=${food}`
-  );
+  // Prepare to create URL
+  let searchURL;
 
+  // If a food was provided, search for it
+  if (food) {
+    searchURL = encodeURI(
+      `https://www.themealdb.com/api/json/v1/1/search.php?s=${food}`
+    );
+  }
+  // If no food is specified, get a random dish
+  else {
+    searchURL = encodeURI("https://www.themealdb.com/api/json/v1/1/random.php");
+  }
+  // TODO what to do if no result is returned for the searched dish?
   try {
     const response = await fetch(searchURL);
     if (!response.ok) throw new Error("Status code not in 200-299 range");
@@ -18,11 +30,25 @@ async function getMealData(food) {
 async function getMeal(food) {
   const result = await getMealData(food);
   const newMeal = new Meal(result);
-  newMeal.logMeal();
+  document.body.appendChild(newMeal.html());
+  voice.speak(newMeal.title);
+  voice.speak(newMeal.category);
+  voice.speak(newMeal.instructions);
+}
+
+async function getRandomMeal() {
+  const result = await getMealData();
+  const newMeal = new Meal(result);
+  document.body.appendChild(newMeal.html());
+  voice.speak(newMeal.title);
+  voice.speak(newMeal.category);
+  voice.speak(newMeal.instructions);
 }
 
 function initApp() {
-  getMeal("Arrabiata");
+  voice.speak("Welcome to the menu reader app");
+  getRandomMeal();
+  /* getMeal("Arrabiata"); */
 }
 
 document.addEventListener("readystatechange", (event) => {
